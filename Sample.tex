@@ -34,4 +34,52 @@ where each outcome is likely.
 	 \item[iii)] Yes.
  \end{itemize}
  
+ \begin{verbatim*}
+
+import matplotlib.pyplot as plt
+from scipy.integrate import odeint
+import numpy as np
+
+def function(y,x):
+	dydx=-x/y
+	return dydx
+
+exact=-(25-x**2)**(1/2)
+
+N=100
+h=(5-4)/N
+x=np.arange(4,5,h)
+sodeint=odeint(f_x,-3,x)
+
+
+# plt.plot(x,sodeint)
+# plt.show()
+
+#Range Kutta Method
+def RK4OdeSys(f,c,t):
+H=t[1]-t[0]
+N=len(t)
+Z=np.zeros(N)
+Z[0]=c
+for k in range(0,N-1):
+k1=f(Z[k],t[k])
+k2=f(Z[k]+H*k1/2,t[k]+H/2)
+k3=f(Z[k]+H*k2/2,t[k]+H/2)
+k4=f(Z[k]+H*k3,t[k]+H)
+Z[k+1]=Z[k]+H/6*(k1+2*k2+2*k3+k4)
+return Z
+sol_RK4=RK4OdeSys(f_x,y4,x)
+
+#Plotting
+
+Error_Odeint= abs(sol_exact-sol_odeint)
+Error_RK4= abs(sol_exact - sol_RK4)
+Error_Odeint
+plt.plot(x,Error_Odeint)
+plt.plot(x,Error_RK4)
+# # plt.legend("Error in ODEINT approx.","Error in RK4 approx.")
+# plt.title("Absolute Error in Approximation")
+plt.show()
+\end{verbatim*}
+ 
  \end{document}
